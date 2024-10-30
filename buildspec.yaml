@@ -1,0 +1,21 @@
+version: 0.2
+env:
+  variables:
+    IMAGE_REPO_NAME: coworking-analytics
+    IMAGE_TAG: latest
+phases:
+  pre_build:
+    commands:
+      - echo Logging into ECR
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  build:
+    commands:
+      - echo Starting build at `date`
+      - echo build docker image
+      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG ./analytics/.
+      - echo docker images
+      - docker images
+  post_build:
+    commands:
+      - echo Push docker image
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
