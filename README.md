@@ -73,6 +73,7 @@ Copy and run sql statements in `db` directory on pgAdmin 4 SQL Editor
 2. Create CodeBuild Project
 3. Deployment
 ```
+kubectl apply -f deployment/secret.yaml
 kubectl apply -f deployment/configmap.yaml
 kubectl apply -f deployment/coworking.yaml
 ```
